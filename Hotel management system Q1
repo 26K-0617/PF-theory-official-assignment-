@@ -1,9 +1,13 @@
 #include  <stdio.h>
 int main () {
-int guestno ;
+int guestno , season, room;
 printf("Enter total number of guests");
 scanf("%d", &guestno);
-
+printf("for each guest:\n") //for each guest first
+printf("Enter number corresponding to season: 1.Peak\t2.Off-peak");
+switch (season) {
+case 1 : printf("Enter number corresponding to Room type: 1.Standard\t2.Deluxe\t3.Suite");
+         switch(room) { case 1: printf("
 
 
 return 0;
