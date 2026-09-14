@@ -1,0 +1,10 @@
+#include  <stdio.h>
+int main () {
+int guestno ;
+printf("Enter total number of guests");
+scanf("%d", &guestno);
+
+
+
+return 0;
+}
