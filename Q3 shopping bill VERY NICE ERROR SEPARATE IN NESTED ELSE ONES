@@ -1,0 +1,45 @@
+VER NICE KE PRESENTS INDIVIDUAL ERRORS IG
+#include <stdio.h>
+int main(){
+	int q, d, t;
+	float p, s,a, final;    /*q=quantity
+	                   d=discount %
+	                   t=tax %
+	                   p=price per item
+                   	   a=discounted amount
+	                   s=subtotal */
+printf("Enter quantity of products purchased: ");
+scanf("%d",&q);
+printf("Enter price per item: ");
+scanf("%f",&p);
+printf("What is the discount percentage? : ");
+scanf("%d",&d);	
+printf("What is the tax percentage? : ");
+scanf("%d",&t);  
+
+if (q<0){ printf("Error! quantity cant be negative.\n");
+} else{ 
+    if(p<0) {printf("Error, price per item is not negative.\n");} //nested if inside else
+         else { 
+		   if(d<0) {printf("Error! discount is not negative.\n");}//next if nested in previous else and this goes on
+	        	else { 
+				  if(t<0) {printf("Error! tax percentage is not negative.\n");}
+				   else{ //when no errors:
+	                	s = q*p;
+	        	        a = s-(s*d)/100.0;
+	        	        final = a+(a*t)/100.0;
+				        //outputs
+                        printf("Quantity of products: %d \n",q);
+                        printf("Price per item: Rs. %.2f \n",p);
+                        printf("Discount percentage: %d \n",d);
+                        printf("Tax percentage: %d \n",t);
+                        printf("Subtotal: Rs.%.2f \n",s);
+                        printf("Discounted amount: Rs. %.2f \n",a);
+                        printf("Final bill: Rs. %.2f \n",final);
+               }
+			}
+		}
+    }
+
+return 0;
+}
