@@ -1,0 +1,8 @@
+#include <stdio.h>
+int main (){
+char zones, vehicletype, permit, emrgncy;                     //'F','S','G','Y','N','C','B','V';
+int max_space;
+switch (zones) { 
+     case 'F' : 
+
+}
