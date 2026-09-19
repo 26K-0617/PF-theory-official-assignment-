@@ -1,0 +1,114 @@
+#include <stdio.h>
+int main(){
+	int current_lvl=0, req_lvl=0, req_charge=0,status=2, priority=3;
+	char type='E', memb='N', disab='N', available='N'; //prevent garbae values if skipped by conditions
+	float duration=0, current_time=0, charging_cost=0,ch_rate=0, park_cost=0, park_dis=0, charging_dis=0;
+	      
+printf("Enter car type (E: Electric, H: Hybrid):  ");
+scanf(" %c",&type);
+printf("Enter whether you are a member (Y: Yes, N: No):  ");
+scanf(" %c",&memb);
+printf("Enter whether you are disabled (Y: Yes, N: No):  ");
+scanf(" %c",&disab);
+printf("Is charging station Available (Y: Yes, N: No):  ");
+scanf(" %c",&available);
+printf("Enter current battery level:  ");
+scanf(" %d",&current_lvl);
+printf("Enter required battery level:  ");
+scanf(" %d",&req_lvl);
+printf("Enter Expected parking duration in hours:  ");
+scanf(" %f",&duration);
+printf("Enter current time in 24-hour format:  ");
+scanf(" %f",&current_time);
+//validate
+if (type != 'E' && type != 'H') {
+        printf("\nError! Invalid car type entered!\n");
+       return 0;
+    }
+    else if ((memb!='Y'&& memb!='N')||(disab!='Y' && disab!='N')||(available!='Y'&& available!='N')) {
+        printf("Error! Enter Y or N only!\n");
+        return 0; /*stops program completely and resarts since no loops allowed this is for single input*/
+    }//&&EXECUTES BEFORE|| so in brackets
+ req_charge=req_lvl-current_lvl;   
+if(req_lvl<= current_lvl){
+	printf("No charging required");
+}
+
+if(available== 'N'){
+    if(type=='E'){
+	  printf("No charger slot available\n");
+    } else { printf("Charging unavailable- Parking only\n"); //when hybrid
+  }
+}
+   
+else if ((available=='Y' && type=='E')||(available=='Y'&& type=='H'&& current_lvl<40)){
+	if (current_lvl<=15&& req_lvl>=80) { priority = 1;
+	printf("Priority: 1 = Emergency charging\n");
+	} else {
+	    	if (disab=='Y'||(memb=='Y'&& current_lvl<=30)){ priority = 2;
+		       printf("Priority : 2 = Priority charging\n");
+		   }else { priority = 3;
+			printf("Priority: 3 = Normal charging\n"); }
+    	}
+   //peak or offpeak assign nested in this else if cuz charge station available
+   //peak and offpeak is for charging only
+    if (current_time>=17 && current_time<=22){ 
+    status = 1;
+    ch_rate = 50; 
+          if(priority != 1){ charging_dis = 0.1;}
+	      else {
+	       charging_dis=0;}  
+    } else {
+    status = 2; //2= off peak in status, 1=peak
+	ch_rate = 35;
+	       if(memb=='Y'&& priority != 1){
+	     	  charging_dis=0.2;
+		  }else {
+		 	charging_dis=0;
+		 }
+   }
+   
+      if (req_lvl>current_lvl){
+       charging_cost = (req_lvl - current_lvl) * ch_rate; 
+      }
+}else {
+	printf("Vehicle doesnt qualify for EV charging\n"); //else of the outer if and if else nested complete here
+}
+//parking does not depend on availibility of charg station so not nested inside previous block
+ if (duration<=2&& duration>=0){
+ 	park_cost= 200;
+ 	}else if (duration>2 && duration<=5){
+ 		park_cost = 400;
+	 } else{
+	 	park_cost= 700;
+	 }
+	   
+ //parking discount
+ if (disab=='Y'){
+ 	park_dis = 1.0; //100%off, free basically
+ }else {
+ 	    if (memb=='Y'){
+ 		park_dis= 0.2;
+	    }else {park_dis=0;
+	 }
+ }
+ //long
+ if(duration>8){
+printf("Long Stay Warning: Please relocate your vehicle after charging\n"); }
+else{ printf("Standard Parking duration\n");
+}
+
+//final summary
+printf("\nVehicle Type: %c\n", type);
+printf("Current Battery Level: %d\n", current_lvl);
+printf("Required Charging level: %d\n", req_lvl);
+printf("Required charging: %d\n", req_lvl-current_lvl);
+printf("Charging priority (1=Emergency, 2=Priority, 3=Normal): %d\n", priority);
+printf("Status (Peak=1, off-peak=2): %d\n", status );
+printf("Charging cost: %.2f\n", charging_cost);
+printf("Parking cost: %.2f\n", park_cost);
+printf("Total discount: %.2f\n",((park_cost*park_dis)+(charging_cost*charging_dis)));
+printf("Final Payable amount: %.2f\n", ((park_cost- (park_cost*park_dis))+ (charging_cost- (charging_cost*charging_dis))));
+
+return 0;
+}
